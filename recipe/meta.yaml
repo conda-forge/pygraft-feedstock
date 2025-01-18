@@ -6,7 +6,7 @@ package:
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/pygraft-{{ version }}.tar.gz
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/pygraft-{{ version }}.tar.gz
   sha256: 2912b26d59404e64448c814ee0a09ff5b34f4454cf573a51c7890514f9311240
 
 build:
@@ -14,17 +14,17 @@ build:
     - pygraft = pygraft.main:main
   noarch: python
   script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
-  number: 0
+  number: 1
 
 requirements:
   host:
-    - python >=3.7
+    - python {{ python_min }}
     - pip
 
     # Need to constrain setuptools since package is setup in a legacy format
     - setuptools <69
   run:
-    - python >=3.7
+    - python >={{ python_min }}
     - numpy >=1.24.0
     - matplotlib-base >=3.7.0
     - owlready2 >=0.41
@@ -42,6 +42,7 @@ test:
     - pygraft --help
   requires:
     - pip
+    - python {{ python_min }}
 
 about:
   home: https://github.com/nicolas-hbt
